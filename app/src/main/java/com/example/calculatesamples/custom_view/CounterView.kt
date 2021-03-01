@@ -15,10 +15,10 @@ class CounterView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : LinearLayout(context, attrs, defStyle) {
 
-    private lateinit var titleTv: TextView
-    private lateinit var counterEt: EditText
-    private lateinit var increaseIbtn: ImageButton
-    private lateinit var decreaseIbtn: ImageButton
+    private val titleTv: TextView
+    private val counterEt: EditText
+    private val increaseIbtn: ImageButton
+    private val decreaseIbtn: ImageButton
 
     var counterNumb: Int = 0
         private set
@@ -76,7 +76,7 @@ class CounterView @JvmOverloads constructor(
                     counterNumb++
                 }
             }
-            counterEt.setText(counterNumb.toString())
+            updateCounter()
             onIncrease?.invoke()
         }
         decreaseIbtn.setOnClickListener {
@@ -88,7 +88,7 @@ class CounterView @JvmOverloads constructor(
                     counterNumb--
                 }
             }
-            counterEt.setText(counterNumb.toString())
+            updateCounter()
             onDecrease?.invoke()
         }
         counterEt.addTextChangedListener {

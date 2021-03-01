@@ -1,44 +1,48 @@
 package com.example.calculatesamples
 
+import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.calculatesamples.data.SampleData
 import com.example.calculatesamples.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
-    private var binding: ActivityMainBinding? = null
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
-        binding?.let { bindingNotNull ->
-            bindingNotNull.stepIntervalCv.minCounterValue = 1
-            bindingNotNull.createSamplesBtn.setOnClickListener { v ->
-                val startInterval = bindingNotNull.startIntervalCv.counterNumb
-                val stepInterval = bindingNotNull.stepIntervalCv.counterNumb
-                val samples = bindingNotNull.samplingInputEt.text.toString().split(' ').map {
-                    it.toInt()
-                }
+        binding.stepIntervalCv.minCounterValue = 1
+        binding.createSamplesBtn.setOnClickListener { v ->
+            val startInterval = binding.startIntervalCv.counterNumb
+            val stepInterval = binding.stepIntervalCv.counterNumb
+            val textSamplingInput = binding.samplingInputEt.text.toString()
+            val samples: List<Int> = if (textSamplingInput.isNotEmpty()) {
+                textSamplingInput.split(' ').map { it.toInt() }
+            } else emptyList()
+            if (samples.isNotEmpty()) {
                 val sampleData = SampleData(
-                    bindingNotNull.startIntervalCv.counterNumb,
-                    bindingNotNull.stepIntervalCv.counterNumb,
-                    bindingNotNull.samplingInputEt.text.toString().split(' ').map { it.toInt() }
+                    startInterval,
+                    stepInterval,
+                    samples
                 )
-
+                val intentToActivityResult = Intent(this, ResultActivity::class.java)
+                val bundle = Bundle().apply {
+                    putParcelable(EXTRA_SAMPLING_DATA, sampleData)
+                }
+                startActivity(intentToActivityResult, bundle)
+            } else {
+                Snackbar.make(
+                    binding.mainActivityRootLayout,
+                    "Выборка не удовлетворяет условию",
+                    Snackbar.LENGTH_SHORT
+                ).setBackgroundTint(Color.BLUE).show()
             }
         }
-
-    }
-
-    private fun errorProcessing(){
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
     }
 }
