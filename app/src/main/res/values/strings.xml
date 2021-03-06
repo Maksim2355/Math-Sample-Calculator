@@ -2,4 +2,9 @@
     <string name="app_name">CalculateSamples</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sample_average">Выборочное среднее = %f</string>
+    <string name="variance">Дисперсия = %f</string>
+    <string name="median">Медиана = %f</string>
+    <string name="fashion">Мода = %f</string>
+
 </resources>

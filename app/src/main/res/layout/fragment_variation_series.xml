@@ -12,16 +12,18 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         tools:text="Выборочное среднее = x"
+        android:text="@string/sample_average"
         android:layout_margin="8dp"
         />
 
     <TextView
-        android:id="@+id/variance"
+        android:id="@+id/variance_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         tools:text="Дисперсия"
+        android:text="@string/variance"
         />
 
     <TextView
@@ -31,6 +33,7 @@
         android:gravity="center_horizontal"
         android:layout_margin="8dp"
         tools:text="Медиана"
+        android:text="@string/median"
         />
 
     <TextView
@@ -39,8 +42,11 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         tools:text="мода"
+        android:text="@string/fashion"
         android:layout_margin="8dp"
         />
+
+    <include layout="@layout/item_variation_series"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/variation_series_rv"
@@ -48,6 +54,5 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         />
-
 
 </LinearLayout>
