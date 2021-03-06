@@ -2,7 +2,7 @@ package com.example.calculatesamples
 
 object GenerateSamples {
 
-    fun createSamples(): List<Int> {
+    fun createMockSamples(): List<Int> {
         return listOf(
             65, 71, 67, 73, 68, 68, 72, 68, 67, 70, 78, 74, 79, 65, 72,
             65, 71, 70, 69, 69, 76, 71, 63, 77, 75, 70, 74, 65, 71, 68,

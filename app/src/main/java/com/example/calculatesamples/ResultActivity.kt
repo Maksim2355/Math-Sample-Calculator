@@ -18,7 +18,6 @@ class ResultActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         binding.navigationToolbar.setNavigationOnClickListener { onBackPressed() }
-
         val viewStateAdapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         binding.viewPager.adapter = viewStateAdapter
 

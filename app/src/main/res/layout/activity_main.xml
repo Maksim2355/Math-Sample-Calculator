@@ -32,6 +32,14 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/create_trial_samples_btn"
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        tools:text="Создать выборку"
+        android:text="Создать Пробную выборку"
+        android:layout_height="wrap_content"/>
+
+    <Button
         android:id="@+id/create_samples_btn"
         android:layout_width="match_parent"
         android:layout_margin="16dp"
