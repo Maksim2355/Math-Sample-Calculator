@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.calculatesamples.R
 import com.example.calculatesamples.data.DataVariationsSeries
+import com.example.calculatesamples.databinding.FragmentVariationSeriesBinding
 
 private const val ARGS_DATA_VARIATION_SERIES = "VARIATION_SERIES"
 
 class VariationSeriesFragment : Fragment() {
 
     private var paramVariationSeriesFragment: DataVariationsSeries? = null
+
+    private lateinit var binding: FragmentVariationSeriesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +29,15 @@ class VariationSeriesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_variation_series, container, false)
+        binding = FragmentVariationSeriesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     companion object {

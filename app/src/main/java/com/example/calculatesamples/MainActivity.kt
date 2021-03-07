@@ -1,5 +1,6 @@
 package com.example.calculatesamples
 
+import GenerateData
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.createTrialSamplesBtn.setOnClickListener {
-            createTrialSamples()
+            createMockSamples()
         }
         binding.stepIntervalCv.minCounterValue = 1
         binding.createSamplesBtn.setOnClickListener { v ->
@@ -30,11 +31,8 @@ class MainActivity : AppCompatActivity() {
                 textSamplingInput.split(' ').map { it.toInt() }
             } else emptyList()
             if (samples.isNotEmpty()) {
-                val data = GenerateData.createVariationSeries(
-                    startInterval,
-                    stepInterval, samples
-                )
-                navigateToResultActivity(data.first, data.second)
+                val data = GenerateData(startInterval, stepInterval, samples)
+                navigateToResultActivity(data.variationsSeries, data.createDataGraphs())
             } else {
                 showSnackBar()
             }
@@ -52,10 +50,11 @@ class MainActivity : AppCompatActivity() {
         }
         startActivity(intentToActivityResult, bundle)
     }
-
-    private fun createTrialSamples() {
+    private fun createMockSamples() {
         val mockSamples: String = GenerateSamples.createMockSamples().joinToString()
         binding.samplingInputEt.setText(mockSamples)
+        binding.stepIntervalCv.counterNumb = 2
+        binding.startIntervalCv.counterNumb = 59
     }
 
 
