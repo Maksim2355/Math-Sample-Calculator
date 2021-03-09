@@ -24,7 +24,6 @@ class ResultActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         binding.navigationToolbar.setNavigationOnClickListener { onBackPressed() }
-
         paramVariationSeriesFragment =
             intent.getSerializableExtra(EXTRA_SAMPLING_DATA_SERIES) as DataVariationsSeries
         pointsGraphs =
@@ -38,9 +37,9 @@ class ResultActivity : AppCompatActivity() {
         binding.viewPager.adapter = viewStateAdapter
         TabLayoutMediator(binding.tabsPageTl, binding.viewPager) { tab, position ->
             if (position == 0) {
-                tab.text = "Graphs"
+                tab.text = "Result"
             } else {
-                tab.text = "Data"
+                tab.text = "Graph"
             }
         }.attach()
     }

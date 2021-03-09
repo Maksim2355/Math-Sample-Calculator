@@ -21,10 +21,12 @@ class CounterView @JvmOverloads constructor(
     private val decreaseIbtn: ImageButton
 
     var counterNumb: Int = 0
-        set(value) {
-            field = value
-            updateCounter()
-        }
+        private set
+
+    fun changeCounter(number: Int){
+        counterNumb = number
+        updateCounter()
+    }
 
     var onIncrease: (() -> Unit)? = null
     var onDecrease: (() -> Unit)? = null

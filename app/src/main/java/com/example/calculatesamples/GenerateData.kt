@@ -15,10 +15,9 @@ class GenerateData(
 
     val variationsSeries: DataVariationsSeries
 
-
     init {
         val sizeInterval = maxSamplesElement - startInterval
-        val countInterval = (sizeInterval / stepInterval) + (sizeInterval % stepInterval)
+        val countInterval = (sizeInterval / stepInterval) + (sizeInterval % stepInterval) + 1
         var a = startInterval
         var b = startInterval + stepInterval
         //Накопленная частость
@@ -35,8 +34,7 @@ class GenerateData(
             val relativeFrequency: Float = frequency.toFloat() / sizeSamples.toFloat()
             accumFrequency += relativeFrequency
 
-            xAverage += relativeFrequency * ((rangeInterval.max - rangeInterval.min).toFloat() / 2)
-
+            xAverage += relativeFrequency * ((rangeInterval.max + rangeInterval.min).toFloat() / 2)
             //Меняем интервалы
             a = b
             b += stepInterval
@@ -50,23 +48,34 @@ class GenerateData(
         listVariationsSeries.forEachIndexed { idx, rowVariationSeries ->
             val midpointInterval: Float =
                 if (stepInterval != 1) {
-                    (rowVariationSeries.range.max + rowVariationSeries.range.min).toFloat() / 2
+                    (rowVariationSeries.range.max + rowVariationSeries.range.min - 1).toFloat() / 2
                 } else {
                     rowVariationSeries.range.min.toFloat()
                 }
             dispersion += (midpointInterval - xAverage).pow(2) * rowVariationSeries.relativeFrequency
         }
-        val isIntervalSeries = stepInterval > 1
 
+        val isIntervalSeries = stepInterval > 1
+        val maxFrequency = listVariationsSeries.maxByOrNull { it.frequency }
         if (isIntervalSeries) {
-            val i: Int = listVariationsSeries.indexOfFirst {
+            val indexWithFrequencyGreater: Int = listVariationsSeries.indexOfFirst {
                 it.accumulatedFrequency > 0.5
             }
+            val maxIntervalFrequency = listVariationsSeries.indexOfFirst { it == maxFrequency }
+            fashion = listVariationsSeries[maxIntervalFrequency].range.min +
+                    stepInterval.toFloat() *
+                    ((listVariationsSeries[maxIntervalFrequency].frequency - listVariationsSeries[maxIntervalFrequency - 1].frequency)
+                            / ((listVariationsSeries[maxIntervalFrequency].frequency - listVariationsSeries[maxIntervalFrequency - 1].frequency)
+                            - (listVariationsSeries[maxIntervalFrequency].frequency - listVariationsSeries[maxIntervalFrequency + 1].frequency))
+                            ).toFloat()
             median =
-                listVariationsSeries[i].range.min +
-                        stepInterval.toFloat() * ((0.5 * sizeSamples - listVariationsSeries[i - 1].frequency)
-                        / listVariationsSeries[i].frequency).toFloat()
+                listVariationsSeries[indexWithFrequencyGreater].range.min +
+                        stepInterval.toFloat() *
+                        ((0.5 * sizeSamples -
+                                (listVariationsSeries[indexWithFrequencyGreater - 1].accumulatedFrequency * sizeSamples))
+                                / listVariationsSeries[indexWithFrequencyGreater].frequency).toFloat()
         } else {
+            fashion = maxFrequency?.range?.min?.toFloat() ?: 0f
             median = if (countInterval % 2 == 0) {
                 listVariationsSeries[(countInterval / 2) + 1].range.min.toFloat()
             } else {

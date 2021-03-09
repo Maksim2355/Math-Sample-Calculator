@@ -17,10 +17,9 @@ class ViewPagerAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return if (position == 1) {
-            VariationSeriesFragment.newInstance(data.first)
-        } else {
-            GraphFragment()
             GraphFragment.newInstance(data.second)
+        } else {
+            VariationSeriesFragment.newInstance(data.first)
         }
     }
 

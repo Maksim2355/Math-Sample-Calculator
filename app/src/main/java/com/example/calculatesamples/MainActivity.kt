@@ -44,17 +44,17 @@ class MainActivity : AppCompatActivity() {
         pointsGraphs: PointsGraphs
     ) {
         val intentToActivityResult = Intent(this, ResultActivity::class.java)
-        val bundle = Bundle().apply {
-            putSerializable(EXTRA_SAMPLING_DATA_SERIES, variationsSeries)
-            putSerializable(EXTRA_SAMPLING_POINTS, pointsGraphs)
-        }
-        startActivity(intentToActivityResult, bundle)
+        intentToActivityResult.putExtra(EXTRA_SAMPLING_POINTS, pointsGraphs)
+        intentToActivityResult.putExtra(EXTRA_SAMPLING_DATA_SERIES, variationsSeries)
+
+        startActivity(intentToActivityResult)
     }
+
     private fun createMockSamples() {
-        val mockSamples: String = GenerateSamples.createMockSamples().joinToString()
+        val mockSamples: String = GenerateSamples.createMockSamples().joinToString(" ")
         binding.samplingInputEt.setText(mockSamples)
-        binding.stepIntervalCv.counterNumb = 2
-        binding.startIntervalCv.counterNumb = 59
+        binding.stepIntervalCv.changeCounter(2)
+        binding.startIntervalCv.changeCounter(59)
     }
 
 
