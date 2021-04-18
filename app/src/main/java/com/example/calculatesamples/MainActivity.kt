@@ -1,6 +1,5 @@
 package com.example.calculatesamples
 
-import GenerateData
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -53,8 +52,6 @@ class MainActivity : AppCompatActivity() {
     private fun createMockSamples() {
         val mockSamples: String = GenerateSamples.createMockSamples().joinToString(" ")
         binding.samplingInputEt.setText(mockSamples)
-        binding.stepIntervalCv.changeCounter(2)
-        binding.startIntervalCv.changeCounter(59)
     }
 
 

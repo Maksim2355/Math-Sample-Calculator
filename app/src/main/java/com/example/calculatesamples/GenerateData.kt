@@ -1,3 +1,5 @@
+package com.example.calculatesamples
+
 import com.example.calculatesamples.data.DataVariationsSeries
 import com.example.calculatesamples.data.PointsGraphs
 import com.example.calculatesamples.data.RowVariationSeries
@@ -17,7 +19,11 @@ class GenerateData(
 
     init {
         val sizeInterval = maxSamplesElement - startInterval
-        val countInterval = (sizeInterval / stepInterval) + (sizeInterval % stepInterval) + 1
+        val countInterval = if(stepInterval == 1){
+                (sizeInterval / stepInterval) + (sizeInterval % stepInterval) + 2
+        }else {
+            (sizeInterval / stepInterval) + (sizeInterval % stepInterval) + 1
+        }
         var a = startInterval
         var b = startInterval + stepInterval
         //Накопленная частость
@@ -34,7 +40,12 @@ class GenerateData(
             val relativeFrequency: Float = frequency.toFloat() / sizeSamples.toFloat()
             accumFrequency += relativeFrequency
 
-            xAverage += relativeFrequency * ((rangeInterval.max + rangeInterval.min).toFloat() / 2)
+            val xi: Float = if (stepInterval != 1){
+                (rangeInterval.max + rangeInterval.min).toFloat() / 2
+            }else {
+                rangeInterval.min.toFloat()
+            }
+            xAverage += relativeFrequency * xi
             //Меняем интервалы
             a = b
             b += stepInterval
@@ -45,7 +56,7 @@ class GenerateData(
         var median = 0f
         var fashion = 0f
         // Найдем дисперсию, медиану и моду
-        listVariationsSeries.forEachIndexed { idx, rowVariationSeries ->
+        listVariationsSeries.forEachIndexed { _, rowVariationSeries ->
             val midpointInterval: Float =
                 if (stepInterval != 1) {
                     (rowVariationSeries.range.max + rowVariationSeries.range.min - 1).toFloat() / 2
