@@ -13,15 +13,15 @@ class GenerateData(
 ) {
 
     private val sizeSamples: Int = samples.size
-    private val maxSamplesElement: Int = samples.maxOrNull() ?: startInterval
+    private val maxSamplesElement: Int = samples.maxOrNull()?.toInt() ?: startInterval
 
     val variationsSeries: DataVariationsSeries
 
     init {
         val sizeInterval = maxSamplesElement - startInterval
-        val countInterval = if(stepInterval == 1){
-                (sizeInterval / stepInterval) + (sizeInterval % stepInterval) + 2
-        }else {
+        val countInterval = if (stepInterval == 1) {
+            (sizeInterval / stepInterval) + (sizeInterval % stepInterval) + 2
+        } else {
             (sizeInterval / stepInterval) + (sizeInterval % stepInterval) + 1
         }
         var a = startInterval
@@ -34,15 +34,13 @@ class GenerateData(
             val rangeInterval = RowVariationSeries.RangeInterval(a, b)
 
             var frequency = 0
-            samples.forEach { elem ->
-                if (elem >= rangeInterval.min && elem < rangeInterval.max) frequency++
-            }
+            samples.forEach { elem -> if (elem >= rangeInterval.min && elem < rangeInterval.max) frequency++ }
             val relativeFrequency: Float = frequency.toFloat() / sizeSamples.toFloat()
             accumFrequency += relativeFrequency
 
-            val xi: Float = if (stepInterval != 1){
+            val xi: Float = if (stepInterval != 1) {
                 (rangeInterval.max + rangeInterval.min).toFloat() / 2
-            }else {
+            } else {
                 rangeInterval.min.toFloat()
             }
             xAverage += relativeFrequency * xi
