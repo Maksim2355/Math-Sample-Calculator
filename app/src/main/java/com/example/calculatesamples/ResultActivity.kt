@@ -6,6 +6,8 @@ import com.example.calculatesamples.data.DataVariationsSeries
 import com.example.calculatesamples.data.PointsGraphs
 import com.example.calculatesamples.databinding.ActivityResultBinding
 import com.example.calculatesamples.page_fragment.ViewPagerAdapter
+import com.example.calculatesamples.utils.EXTRA_SAMPLING_DATA_SERIES
+import com.example.calculatesamples.utils.EXTRA_SAMPLING_POINTS
 import com.google.android.material.tabs.TabLayoutMediator
 
 class ResultActivity : AppCompatActivity() {

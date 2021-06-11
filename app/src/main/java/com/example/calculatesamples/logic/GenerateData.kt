@@ -1,4 +1,4 @@
-package com.example.calculatesamples
+package com.example.calculatesamples.logic
 
 import com.example.calculatesamples.data.DataVariationsSeries
 import com.example.calculatesamples.data.PointsGraphs
@@ -9,7 +9,7 @@ import kotlin.math.pow
 class GenerateData(
     startInterval: Int,
     stepInterval: Int,
-    samples: List<Int>
+    samples: List<Float>
 ) {
 
     private val sizeSamples: Int = samples.size

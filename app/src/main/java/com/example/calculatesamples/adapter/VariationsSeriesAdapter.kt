@@ -10,8 +10,7 @@ import com.example.calculatesamples.databinding.ItemVariationSeriesBinding
 
 class VariationsSeriesAdapter(
     private val listVariationsSeriesAdapter: List<RowVariationSeries>
-) :
-    RecyclerView.Adapter<VariationsSeriesAdapter.RowViewHolder>() {
+) : RecyclerView.Adapter<VariationsSeriesAdapter.RowViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowViewHolder {
         val itemBinding = ItemVariationSeriesBinding.inflate(

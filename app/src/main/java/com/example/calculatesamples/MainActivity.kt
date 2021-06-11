@@ -7,6 +7,11 @@ import android.os.Bundle
 import com.example.calculatesamples.data.DataVariationsSeries
 import com.example.calculatesamples.data.PointsGraphs
 import com.example.calculatesamples.databinding.ActivityMainBinding
+import com.example.calculatesamples.logic.GenerateData
+import com.example.calculatesamples.utils.EXTRA_SAMPLING_DATA_SERIES
+import com.example.calculatesamples.utils.EXTRA_SAMPLING_POINTS
+import com.example.calculatesamples.utils.GenerateSamples
+import com.example.calculatesamples.utils.mapToSample
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
@@ -18,20 +23,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.createTrialSamplesBtn.setOnClickListener {
-            createMockSamples()
-        }
+        binding.createTrialSamplesBtn.setOnClickListener { createMockSamples() }
         binding.stepIntervalCv.minCounterValue = 1
-        binding.createSamplesBtn.setOnClickListener { v ->
+        binding.createSamplesBtn.setOnClickListener {
             val startInterval = binding.startIntervalCv.counterNumb
             val stepInterval = binding.stepIntervalCv.counterNumb
-            val textSamplingInput = binding.samplingInputEt.text.toString()
-            val samples: List<Int> = if (textSamplingInput.isNotEmpty()) {
-                textSamplingInput.split(' ').map { it.toInt() }
-            } else emptyList()
+            val samples: List<Float> = mapToSample(binding.samplingInputEt.text.toString())
             if (samples.isNotEmpty()) {
                 val data = GenerateData(startInterval, stepInterval, samples)
-                navigateToResultActivity(data.variationsSeries, data.createDataGraphs())
+                navigateToResultActivity(
+                    data.variationsSeries,
+                    data.createDataGraphs()
+                )
             } else {
                 showSnackBar()
             }
@@ -45,7 +48,6 @@ class MainActivity : AppCompatActivity() {
         val intentToActivityResult = Intent(this, ResultActivity::class.java)
         intentToActivityResult.putExtra(EXTRA_SAMPLING_POINTS, pointsGraphs)
         intentToActivityResult.putExtra(EXTRA_SAMPLING_DATA_SERIES, variationsSeries)
-
         startActivity(intentToActivityResult)
     }
 
@@ -53,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         val mockSamples: String = GenerateSamples.createMockSamples().joinToString(" ")
         binding.samplingInputEt.setText(mockSamples)
     }
-
 
     private fun showSnackBar() {
         Snackbar.make(

@@ -54,7 +54,7 @@
         android:layout_margin="16dp"
         android:padding="8dp"
         android:hint="Введите выборку"
-        android:digits=" 0123456789"
+        android:digits=" 0123456789.-"
         android:inputType="textMultiLine|number"
         android:background="@drawable/border"
         />

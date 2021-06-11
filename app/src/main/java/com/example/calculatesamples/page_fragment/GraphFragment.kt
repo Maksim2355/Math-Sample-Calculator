@@ -18,9 +18,7 @@ class GraphFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            pointsGraphs = it.getSerializable(ARG_POINTS) as PointsGraphs
-        }
+        arguments?.let { pointsGraphs = it.getSerializable(ARG_POINTS) as PointsGraphs }
     }
 
     override fun onCreateView(
