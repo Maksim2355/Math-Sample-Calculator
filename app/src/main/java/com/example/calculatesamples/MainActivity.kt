@@ -8,10 +8,9 @@ import com.example.calculatesamples.data.DataVariationsSeries
 import com.example.calculatesamples.data.PointsGraphs
 import com.example.calculatesamples.databinding.ActivityMainBinding
 import com.example.calculatesamples.logic.GenerateData
-import com.example.calculatesamples.utils.EXTRA_SAMPLING_DATA_SERIES
-import com.example.calculatesamples.utils.EXTRA_SAMPLING_POINTS
-import com.example.calculatesamples.utils.GenerateSamples
-import com.example.calculatesamples.utils.mapToSample
+import com.example.calculatesamples.logic.calculate
+import com.example.calculatesamples.logic.calculateWithCustomStep
+import com.example.calculatesamples.utils.*
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
@@ -25,15 +24,18 @@ class MainActivity : AppCompatActivity() {
 
         binding.createTrialSamplesBtn.setOnClickListener { createMockSamples() }
         binding.stepIntervalCv.minCounterValue = 1
+        binding.samplingInputEt.setOnSampleInputFilter()
         binding.createSamplesBtn.setOnClickListener {
             val startInterval = binding.startIntervalCv.counterNumb
             val stepInterval = binding.stepIntervalCv.counterNumb
             val samples: List<Float> = mapToSample(binding.samplingInputEt.text.toString())
             if (samples.isNotEmpty()) {
-                val data = GenerateData(startInterval, stepInterval, samples)
                 navigateToResultActivity(
-                    data.variationsSeries,
-                    data.createDataGraphs()
+                    if (stepInterval == 1) {
+                        samples.calculate(startInterval)
+                    } else {
+                        samples.calculateWithCustomStep(startInterval, stepInterval)
+                    }
                 )
             } else {
                 showSnackBar()
@@ -43,10 +45,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigateToResultActivity(
         variationsSeries: DataVariationsSeries,
-        pointsGraphs: PointsGraphs
     ) {
         val intentToActivityResult = Intent(this, ResultActivity::class.java)
-        intentToActivityResult.putExtra(EXTRA_SAMPLING_POINTS, pointsGraphs)
         intentToActivityResult.putExtra(EXTRA_SAMPLING_DATA_SERIES, variationsSeries)
         startActivity(intentToActivityResult)
     }

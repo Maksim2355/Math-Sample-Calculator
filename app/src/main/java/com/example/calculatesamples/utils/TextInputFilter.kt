@@ -7,18 +7,17 @@ import android.widget.EditText
 fun EditText.setOnSampleInputFilter() {
     addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            TODO("Not yet implemented")
+
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val lenText = text.length ?: 0
-            if (lenText > 1 && (text[lenText] == ' ' && text[lenText] == ' ')) {
+            if (text.length > 2 && text[text.length - 1] == ' ' && text[text.length - 2] == ' ') {
                 setText(text.dropLast(1))
+                setSelection(text.length)
             }
         }
 
         override fun afterTextChanged(s: Editable?) {
-            TODO("Not yet implemented")
         }
 
     })

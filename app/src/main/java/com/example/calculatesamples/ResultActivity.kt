@@ -28,11 +28,9 @@ class ResultActivity : AppCompatActivity() {
         binding.navigationToolbar.setNavigationOnClickListener { onBackPressed() }
         paramVariationSeriesFragment =
             intent.getSerializableExtra(EXTRA_SAMPLING_DATA_SERIES) as DataVariationsSeries
-        pointsGraphs =
-            intent.getSerializableExtra(EXTRA_SAMPLING_POINTS) as PointsGraphs
 
         val viewStateAdapter = ViewPagerAdapter(
-            paramVariationSeriesFragment!! to pointsGraphs!!,
+            paramVariationSeriesFragment!! to PointsGraphs(listOf(), listOf()),
             supportFragmentManager,
             lifecycle
         )
